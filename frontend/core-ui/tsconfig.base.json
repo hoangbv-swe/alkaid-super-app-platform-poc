@@ -14,7 +14,257 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "@core-ui/shared-ui-kit": ["./libs/shared/ui-kit/src/index.ts"]
+      "@core-ui/shared-ui-kit": ["./libs/shared/ui-kit/src/index.ts"],
+      "@core-ui/core-facades": ["./libs/core/facades/src/index.ts"],
+      "@core-ui/core-auth": ["./libs/core/auth/src/index.ts"],
+      "@core-ui/core-http": ["./libs/core/http/src/index.ts"],
+      "@core-ui/core-i18n": ["./libs/core/i18n/src/index.ts"],
+      "@core-ui/core-error-handler": ["./libs/core/error-handler/src/index.ts"],
+      "@core-ui/core-seo": ["./libs/core/seo/src/index.ts"],
+      "@core-ui/core-notification": ["./libs/core/notification/src/index.ts"],
+      "@core-ui/core-tracking": ["./libs/core/tracking/src/index.ts"],
+      "@core-ui/core-types": ["./libs/core/types/src/index.ts"],
+      "@core-ui/core-state": ["./libs/core/state/src/index.ts"],
+      "@core-ui/core-config": ["./libs/core/config/src/index.ts"],
+      "@core-ui/core-toggles": ["./libs/core/toggles/src/index.ts"],
+      "@core-ui/core-pwa": ["./libs/core/pwa/src/index.ts"],
+      "@core-ui/core-server-only-transfer-state": [
+        "./libs/core/server-only/transfer-state/src/index.ts"
+      ],
+      "@core-ui/core-server-only-interceptors": [
+        "./libs/core/server-only/interceptors/src/index.ts"
+      ],
+      "@core-ui/core-server-only-services": [
+        "./libs/core/server-only/services/src/index.ts"
+      ],
+      "@core-ui/core-server-only-tokens": [
+        "./libs/core/server-only/tokens/src/index.ts"
+      ],
+      "@core-ui/core-server-only-setup": [
+        "./libs/core/server-only/setup/src/index.ts"
+      ],
+      "@core-ui/core-browser-only-websocket": [
+        "./libs/core/browser-only/websocket/src/index.ts"
+      ],
+      "@core-ui/core-browser-only-storage": [
+        "./libs/core/browser-only/storage/src/index.ts"
+      ],
+      "@core-ui/core-browser-only-network-status": [
+        "./libs/core/browser-only/network-status/src/index.ts"
+      ],
+      "@core-ui/shared-styles": ["./libs/shared/styles/src/index.ts"],
+      "@core-ui/shared-utils": ["./libs/shared/utils/src/index.ts"],
+      "@core-ui/shared-pipes": ["./libs/shared/pipes/src/index.ts"],
+      "@core-ui/shared-validators": ["./libs/shared/validators/src/index.ts"],
+      "@core-ui/shared-animations": ["./libs/shared/animations/src/index.ts"],
+      "@core-ui/shared-forms": ["./libs/shared/forms/src/index.ts"],
+      "@core-ui/shared-layouts": ["./libs/shared/layouts/src/index.ts"],
+      "@core-ui/shared-assets": ["./libs/shared/assets/src/index.ts"],
+      "@core-ui/shared-directives": ["./libs/shared/directives/src/index.ts"],
+      "@core-ui/auth-api": ["./libs/domains/auth/api/src/index.ts"],
+      "@core-ui/auth-data-access": [
+        "./libs/domains/auth/data-access/src/index.ts"
+      ],
+      "@core-ui/auth-ui": ["./libs/domains/auth/ui/src/index.ts"],
+      "@core-ui/commerce-catalog-api": [
+        "./libs/domains/commerce/catalog/api/src/index.ts"
+      ],
+      "@core-ui/commerce-catalog-data-access": [
+        "./libs/domains/commerce/catalog/data-access/src/index.ts"
+      ],
+      "@core-ui/commerce-catalog-ui": [
+        "./libs/domains/commerce/catalog/ui/src/index.ts"
+      ],
+      "@core-ui/commerce-cart-api": [
+        "./libs/domains/commerce/cart/api/src/index.ts"
+      ],
+      "@core-ui/commerce-cart-data-access": [
+        "./libs/domains/commerce/cart/data-access/src/index.ts"
+      ],
+      "@core-ui/commerce-cart-ui": [
+        "./libs/domains/commerce/cart/ui/src/index.ts"
+      ],
+      "@core-ui/commerce-checkout-api": [
+        "./libs/domains/commerce/checkout/api/src/index.ts"
+      ],
+      "@core-ui/commerce-checkout-data-access": [
+        "./libs/domains/commerce/checkout/data-access/src/index.ts"
+      ],
+      "@core-ui/commerce-checkout-ui": [
+        "./libs/domains/commerce/checkout/ui/src/index.ts"
+      ],
+      "@core-ui/commerce-social-hub-api": [
+        "./libs/domains/commerce/social-hub/api/src/index.ts"
+      ],
+      "@core-ui/commerce-social-hub-data-access": [
+        "./libs/domains/commerce/social-hub/data-access/src/index.ts"
+      ],
+      "@core-ui/commerce-social-hub-ui": [
+        "./libs/domains/commerce/social-hub/ui/src/index.ts"
+      ],
+      "@core-ui/commerce-promotions-api": [
+        "./libs/domains/commerce/promotions/api/src/index.ts"
+      ],
+      "@core-ui/commerce-promotions-data-access": [
+        "./libs/domains/commerce/promotions/data-access/src/index.ts"
+      ],
+      "@core-ui/commerce-promotions-ui": [
+        "./libs/domains/commerce/promotions/ui/src/index.ts"
+      ],
+      "@core-ui/commerce-affiliate-api": [
+        "./libs/domains/commerce/affiliate/api/src/index.ts"
+      ],
+      "@core-ui/commerce-affiliate-data-access": [
+        "./libs/domains/commerce/affiliate/data-access/src/index.ts"
+      ],
+      "@core-ui/commerce-affiliate-ui": [
+        "./libs/domains/commerce/affiliate/ui/src/index.ts"
+      ],
+      "@core-ui/operations-orders-api": [
+        "./libs/domains/operations/orders/api/src/index.ts"
+      ],
+      "@core-ui/operations-orders-data-access": [
+        "./libs/domains/operations/orders/data-access/src/index.ts"
+      ],
+      "@core-ui/operations-orders-ui": [
+        "./libs/domains/operations/orders/ui/src/index.ts"
+      ],
+      "@core-ui/operations-inventory-api": [
+        "./libs/domains/operations/inventory/api/src/index.ts"
+      ],
+      "@core-ui/operations-inventory-data-access": [
+        "./libs/domains/operations/inventory/data-access/src/index.ts"
+      ],
+      "@core-ui/operations-inventory-ui": [
+        "./libs/domains/operations/inventory/ui/src/index.ts"
+      ],
+      "@core-ui/operations-logistics-api": [
+        "./libs/domains/operations/logistics/api/src/index.ts"
+      ],
+      "@core-ui/operations-logistics-data-access": [
+        "./libs/domains/operations/logistics/data-access/src/index.ts"
+      ],
+      "@core-ui/operations-logistics-ui": [
+        "./libs/domains/operations/logistics/ui/src/index.ts"
+      ],
+      "@core-ui/operations-location-api": [
+        "./libs/domains/operations/location/api/src/index.ts"
+      ],
+      "@core-ui/operations-location-data-access": [
+        "./libs/domains/operations/location/data-access/src/index.ts"
+      ],
+      "@core-ui/operations-location-ui": [
+        "./libs/domains/operations/location/ui/src/index.ts"
+      ],
+      "@core-ui/operations-procurement-api": [
+        "./libs/domains/operations/procurement/api/src/index.ts"
+      ],
+      "@core-ui/operations-procurement-data-access": [
+        "./libs/domains/operations/procurement/data-access/src/index.ts"
+      ],
+      "@core-ui/operations-procurement-ui": [
+        "./libs/domains/operations/procurement/ui/src/index.ts"
+      ],
+      "@core-ui/operations-after-sales-api": [
+        "./libs/domains/operations/after-sales/api/src/index.ts"
+      ],
+      "@core-ui/operations-after-sales-data-access": [
+        "./libs/domains/operations/after-sales/data-access/src/index.ts"
+      ],
+      "@core-ui/operations-after-sales-ui": [
+        "./libs/domains/operations/after-sales/ui/src/index.ts"
+      ],
+      "@core-ui/crm-account-api": [
+        "./libs/domains/crm/account/api/src/index.ts"
+      ],
+      "@core-ui/crm-account-data-access": [
+        "./libs/domains/crm/account/data-access/src/index.ts"
+      ],
+      "@core-ui/crm-account-ui": ["./libs/domains/crm/account/ui/src/index.ts"],
+      "@core-ui/crm-reviews-api": [
+        "./libs/domains/crm/reviews/api/src/index.ts"
+      ],
+      "@core-ui/crm-reviews-data-access": [
+        "./libs/domains/crm/reviews/data-access/src/index.ts"
+      ],
+      "@core-ui/crm-reviews-ui": ["./libs/domains/crm/reviews/ui/src/index.ts"],
+      "@core-ui/crm-marketing-api": [
+        "./libs/domains/crm/marketing/api/src/index.ts"
+      ],
+      "@core-ui/crm-marketing-data-access": [
+        "./libs/domains/crm/marketing/data-access/src/index.ts"
+      ],
+      "@core-ui/crm-marketing-ui": [
+        "./libs/domains/crm/marketing/ui/src/index.ts"
+      ],
+      "@core-ui/crm-chat-api": ["./libs/domains/crm/chat/api/src/index.ts"],
+      "@core-ui/crm-chat-data-access": [
+        "./libs/domains/crm/chat/data-access/src/index.ts"
+      ],
+      "@core-ui/crm-chat-ui": ["./libs/domains/crm/chat/ui/src/index.ts"],
+      "@core-ui/store-ops-pos-desk-api": [
+        "./libs/domains/store-ops/pos-desk/api/src/index.ts"
+      ],
+      "@core-ui/store-ops-pos-desk-data-access": [
+        "./libs/domains/store-ops/pos-desk/data-access/src/index.ts"
+      ],
+      "@core-ui/store-ops-pos-desk-ui": [
+        "./libs/domains/store-ops/pos-desk/ui/src/index.ts"
+      ],
+      "@core-ui/store-ops-user-management-api": [
+        "./libs/domains/store-ops/user-management/api/src/index.ts"
+      ],
+      "@core-ui/store-ops-user-management-data-access": [
+        "./libs/domains/store-ops/user-management/data-access/src/index.ts"
+      ],
+      "@core-ui/store-ops-user-management-ui": [
+        "./libs/domains/store-ops/user-management/ui/src/index.ts"
+      ],
+      "@core-ui/store-ops-payment-api": [
+        "./libs/domains/store-ops/payment/api/src/index.ts"
+      ],
+      "@core-ui/store-ops-payment-data-access": [
+        "./libs/domains/store-ops/payment/data-access/src/index.ts"
+      ],
+      "@core-ui/store-ops-payment-ui": [
+        "./libs/domains/store-ops/payment/ui/src/index.ts"
+      ],
+      "@core-ui/store-ops-analytics-api": [
+        "./libs/domains/store-ops/analytics/api/src/index.ts"
+      ],
+      "@core-ui/store-ops-analytics-data-access": [
+        "./libs/domains/store-ops/analytics/data-access/src/index.ts"
+      ],
+      "@core-ui/store-ops-analytics-ui": [
+        "./libs/domains/store-ops/analytics/ui/src/index.ts"
+      ],
+      "@core-ui/finance-e-wallet-api": [
+        "./libs/domains/finance/e-wallet/api/src/index.ts"
+      ],
+      "@core-ui/finance-e-wallet-data-access": [
+        "./libs/domains/finance/e-wallet/data-access/src/index.ts"
+      ],
+      "@core-ui/finance-e-wallet-ui": [
+        "./libs/domains/finance/e-wallet/ui/src/index.ts"
+      ],
+      "@core-ui/finance-billing-api": [
+        "./libs/domains/finance/billing/api/src/index.ts"
+      ],
+      "@core-ui/finance-billing-data-access": [
+        "./libs/domains/finance/billing/data-access/src/index.ts"
+      ],
+      "@core-ui/finance-billing-ui": [
+        "./libs/domains/finance/billing/ui/src/index.ts"
+      ],
+      "@core-ui/finance-payouts-api": [
+        "./libs/domains/finance/payouts/api/src/index.ts"
+      ],
+      "@core-ui/finance-payouts-data-access": [
+        "./libs/domains/finance/payouts/data-access/src/index.ts"
+      ],
+      "@core-ui/finance-payouts-ui": [
+        "./libs/domains/finance/payouts/ui/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
