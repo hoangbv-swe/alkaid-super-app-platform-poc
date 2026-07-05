@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  # ===============================================================================================
+  # CACHE TIER (Redis)
+  # ===============================================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: alkaid_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ===============================================================================================
+  # MESSAGE BROKER TIER (Kafka KRaft Mode)
+  # ===============================================================================================
+  kafka:
+    image: bitnami/kafka:3.7
+    container_name: alkaid_kafka
+    restart: unless-stopped
+    environment:
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    volumes:
+      - kafka_data:/bitnami/kafka
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/9092'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ===============================================================================================
+  # DATABASE TIER (MySQL)
+  # ===============================================================================================
+  database:
+    image: mysql:8.0
+    container_name: alkaid_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: alkaid_platform
+      MYSQL_USER: alkaid_user
+      MYSQL_PASSWORD: alkaid_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../../devops/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ===============================================================================================
+  # BACKEND TIER (Spring Boot Core API)
+  # ===============================================================================================
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alkaid_backend
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/alkaid_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=alkaid_user
+      - SPRING_DATASOURCE_PASSWORD=alkaid_password
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 1536M
+
+volumes:
+  mysql_data:
+  redis_data:
+  kafka_data:
+
+networks:
+  alkaid_network:
+    name: alkaid_shared_network
+    driver: bridge
