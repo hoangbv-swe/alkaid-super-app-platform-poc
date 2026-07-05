@@ -1,0 +1,37 @@
+# ===============================================================================================
+# RUNTIME STAGE (Tối ưu cho High-load, K8s Auto-scaling & DevSecOps)
+# Base: Node.js 20 trên Alpine Linux (nhẹ, an toàn, chuẩn non-root K8s).
+# ===============================================================================================
+
+# Khai báo Base Image.
+FROM node:20-alpine
+
+# Khai báo biến Build (ARG).
+ARG APP_NAME=storefront
+
+# Gắn Metadata cho image.
+LABEL maintainer="Alkaid Team" service="frontend-ssr-${APP_NAME}" environment="production"
+
+# Cài đặt công cụ quản lý tiến trình (dumb-init).
+RUN apk add --no-cache dumb-init
+
+# Chuẩn bị thư mục làm việc và phân quyền.
+RUN mkdir -p /app && chown -R node:node /app
+
+# Chuyển quyền thực thi sang user 'node'.
+USER node
+
+# Thiết lập thư mục làm việc mặc định cho ứng dụng.
+WORKDIR /app
+
+# Cấu hình tham số môi trường (Environment Variables) tối ưu cho Node.js.
+ENV NODE_ENV=production PORT=4000 NODE_OPTIONS="--max-old-space-size=512"
+
+# Đưa source code (đã được build ra file JS chạy được) vào container.
+COPY --chown=node:node ./dist/apps/${APP_NAME}/ ./dist/
+
+# Khai báo port giao tiếp.
+EXPOSE 4000
+
+# Lệnh khởi chạy ứng dụng.
+CMD ["dumb-init", "node", "dist/server/server.mjs"]

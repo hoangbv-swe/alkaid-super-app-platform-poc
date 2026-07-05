@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  # ===============================================================================================
+  # REVERSE PROXY / API GATEWAY (Single Entrypoint)
+  # ===============================================================================================
+  gateway:
+    image: traefik:v2.10
+    container_name: alkaid_gateway
+    restart: unless-stopped
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - alkaid_network
+
+  # ===============================================================================================
+  # FRONTEND TIER: POS (Client-Side Rendering)
+  # ===============================================================================================
+  pos:
+    build:
+      context: .
+      dockerfile: Dockerfile.csr
+      args:
+        - APP_NAME=pos
+    container_name: alkaid_pos
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pos.rule=Host(`pos.alkaid.local`)"
+      - "traefik.http.services.pos.loadbalancer.server.port=8080"
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
+
+  # ===============================================================================================
+  # FRONTEND TIER: Merchant (Client-Side Rendering)
+  # ===============================================================================================
+  merchant:
+    build:
+      context: .
+      dockerfile: Dockerfile.csr
+      args:
+        - APP_NAME=merchant
+    container_name: alkaid_merchant
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.merchant.rule=Host(`merchant.alkaid.local`)"
+      - "traefik.http.services.merchant.loadbalancer.server.port=8080"
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
+
+  # ===============================================================================================
+  # FRONTEND TIER: Backoffice (Client-Side Rendering)
+  # ===============================================================================================
+  backoffice:
+    build:
+      context: .
+      dockerfile: Dockerfile.csr
+      args:
+        - APP_NAME=backoffice
+    container_name: alkaid_backoffice
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backoffice.rule=Host(`admin.alkaid.local`)"
+      - "traefik.http.services.backoffice.loadbalancer.server.port=8080"
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
+
+  # ===============================================================================================
+  # FRONTEND TIER: Storefront (Server-Side Rendering - Node.js)
+  # ===============================================================================================
+  storefront:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssr
+    container_name: alkaid_storefront
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - API_URL=https://api.alkaid.com
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.storefront.rule=Host(`www.alkaid.local`)"
+      - "traefik.http.services.storefront.loadbalancer.server.port=4000"
+    networks:
+      - alkaid_network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+networks:
+  alkaid_network:
+    external: true
+    name: alkaid_shared_network
