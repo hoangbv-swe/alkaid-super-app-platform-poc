@@ -1,0 +1,7 @@
+# Khai báo định danh của toàn bộ cụm dự án.
+name: alkaid-super-app-local
+
+# Khai báo module hoá cấu hình.
+include:
+  - ../../backend/core-api/docker-compose.yml
+  - ../../frontend/core-ui/docker-compose.yml
